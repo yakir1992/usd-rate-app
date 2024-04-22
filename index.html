@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USD Rate</title>
+</head>
+<body>
+    <h1>Current USD Rate</h1>
+    <div id="usd-rate"></div>
+
+    <script>
+        const ws = new WebSocket('ws://localhost:8080');
+
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.type === 'rates') {
+                const rates = data.data;
+                const usdRateElement = document.getElementById('usd-rate');
+                usdRateElement.innerHTML = `<p>USD to EUR: ${rates.EUR}</p>
+                                           <p>USD to GBP: ${rates.GBP}</p>
+                                           <p>USD to ILS: ${rates.ILS}</p>
+                                           <p>USD to JPY: ${rates.JPY}</p>`;
+            }
+        };
+    </script>
+</body>
+</html>
