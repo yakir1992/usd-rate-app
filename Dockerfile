@@ -1,13 +1,20 @@
-# Use a base image of your choice
-FROM ubuntu:latest
+# Use an official Node.js runtime as the base image
+FROM node:14
 
-# Set the working directory inside the container
+# Set the working directory in the container
 WORKDIR /home/yakyak/Desktop/DevOps Projects/usd-rate-app
 
-# Copy your files from your local directory into the container
-COPY . /home/yakyak/Desktop/DevOps Projects/usd-rate-app/
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
 
-# Add any additional setup or configuration commands here
+# Install dependencies
+RUN npm install
 
-# Specify a default command to run when the container starts (optional)
-CMD ["bash"]
+# Copy all files from the current directory to the working directory in the container
+COPY . .
+
+# Expose port 3000
+EXPOSE 3000
+
+# Define the command to run your application
+CMD ["node", "app.js"]
