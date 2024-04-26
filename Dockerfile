@@ -1,20 +1,20 @@
-# Use an official Node.js runtime as the base image
-FROM node:14
+# Use official Node.js image as base
+FROM node:latest
 
-# Set the working directory in the container
-WORKDIR /home/yakyak/Desktop/DevOps Projects/usd-rate-app
+# Set the working directory inside the container
+WORKDIR /app
 
-# Copy package.json and package-lock.json to the working directory
+# Copy package.json and package-lock.json to work directory
 COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy all files from the current directory to the working directory in the container
+# Copy the rest of the application code
 COPY . .
 
-# Expose port 3000
+# Expose port 3000 to the outside world
 EXPOSE 3000
 
-# Define the command to run your application
+# Command to run the application
 CMD ["node", "app.js"]

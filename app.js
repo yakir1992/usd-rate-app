@@ -6,7 +6,7 @@ const app = express();
 const port = 3000;
 
 // WebSocket server
-const wss = new WebSocket.Server({ port: 8080 });
+const wss = new WebSocket.Server({ port: 3000 });
 
 // Function to fetch USD rate
 const fetchUSDRate = async () => {
