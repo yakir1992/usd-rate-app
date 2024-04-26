@@ -1,38 +1,38 @@
 pipeline {
     agent any
-    
+
     environment {
-        DOCKER_IMAGE = 'yakir1992/usd-rate-app' 
+        DOCKER_IMAGE = 'yakir1992/usd-rate-app'
+        DOCKERFILE_PATH = '/home/ubuntu/usd-rate-app/Dockerfile'
     }
-    
+
     stages {
         stage('Build') {
             steps {
-                // Checkout code from GitHub
-                git 'https://github.com/yakir1992/usd-rate-app' 
-                
-                // Build Docker image
+                // Checkout the code from GitHub
+                git 'https://github.com/yakir1992/usd-rate-app'
+
+                // Build the Docker image
                 script {
-                    sh "docker build -t ${DOCKER_IMAGE} ."
+                    docker.build("${DOCKER_IMAGE}", "--build-arg PORT=80 -f ${DOCKERFILE_PATH} .")
                 }
             }
         }
-        
-        stage('Test') {
+
+        stage('Push to Docker Hub') {
             steps {
-                // Your test steps here
-                echo 'Testing...'
-            }
-        }
-        
-        stage('Deploy') {
-            steps {
-                // Push Docker image to Docker Hub
+                // Push the Docker image to Docker Hub
                 script {
-                    sh "docker login -u yakir1992 -p dckr_pat_M_UTfzLwRZGGTr-57u4Qnik8NGw"
-                    sh "docker push ${DOCKER_IMAGE}"
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub_credentials') {
+                        docker.image("${DOCKER_IMAGE}").push()
+                    }
                 }
             }
         }
+    }
+
+    // Define Docker Hub credentials
+    environment {
+        dockerhub_credentials = 'dockerhub-credentials-id'
     }
 }
