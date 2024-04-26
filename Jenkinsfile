@@ -4,6 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'yakir1992/usd-rate-app'
         DOCKERFILE_PATH = '/home/ubuntu/usd-rate-app/Dockerfile'
+        dockerhub_credentials = '9cf7109a-6e06-43d3-8d0a-d72bec731005'
     }
 
     stages {
@@ -29,10 +30,5 @@ pipeline {
                 }
             }
         }
-    }
-
-    // Define Docker Hub credentials
-    environment {
-        dockerhub_credentials = '9cf7109a-6e06-43d3-8d0a-d72bec731005'
-    }
+    } 
 }
